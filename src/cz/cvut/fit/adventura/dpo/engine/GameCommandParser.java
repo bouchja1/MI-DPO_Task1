@@ -1,32 +1,24 @@
 package cz.cvut.fit.adventura.dpo.engine;
 
 import cz.cvut.fit.adventura.dpo.engine.commands.Command;
-import cz.cvut.fit.adventura.dpo.engine.commands.CommandFactory;
+import cz.cvut.fit.adventura.dpo.engine.exception.GameException;
+import cz.cvut.fit.adventura.dpo.engine.mvc.Model;
+import cz.cvut.fit.adventura.dpo.engine.mvc.View;
 
-//vytvari komandy
-public class GameCommandParser {	
-	
-	private Game game;	
-
-	public GameCommandParser(Game game) {
-		this.game = game;
-	}
-
-	public Command parseCommand(String inputLine) {
-		//tady se provede rozparsovani inputu, validace a volani novych prikazu
-        String [] parsedInput = inputLine.split("[ \t]+"); //space or tab occurs one or more times 
-        String commandString = parsedInput[0];
-        
-        String [] commandParams = new String[parsedInput.length-1];
-        
-        for (int i = 0 ; i < commandParams.length; i++) {
-        	commandParams[i] = parsedInput[i+1];   
-        }        
-        
-        Command command = CommandFactory.getCommand(commandString, game, commandParams, game.getModel());
-        
-        return command;
-	}
-	
-
+/**
+ * @author bouc2162
+ * 
+ * Zpracovani vstupu a na základì toho validace a vytvareni pøíkazù
+ *
+ */
+public interface GameCommandParser {
+	/**
+	 * @param model
+	 * @param view
+	 * @return konkrétní pøíkaz
+	 * @throws GameException
+	 * 
+	 * Rozparsovani inputu, validace a volani novych prikazu
+	 */
+	public Command parseCommand(Model model, View view) throws GameException;
 }

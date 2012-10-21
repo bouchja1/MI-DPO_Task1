@@ -2,6 +2,8 @@ package cz.cvut.fit.adventura.dpo.engine;
 
 import java.util.Set;
 
+import cz.cvut.fit.adventura.dpo.engine.mvc.Game;
+import cz.cvut.fit.adventura.dpo.engine.mvc.NarratorView;
 import cz.cvut.fit.adventura.dpo.engine.objects.MovableThing;
 import cz.cvut.fit.adventura.dpo.engine.objects.Player;
 import cz.cvut.fit.adventura.dpo.engine.objects.Room;
@@ -14,12 +16,12 @@ public class TextGameBuilder implements GameBuilder {
 	private Game game;
 
 	public TextGameBuilder() {
-		this.game = new Game();
+		this.game = new Game(new NarratorView(), new GameTextCommandParser());
 	}
 
 	@Override
 	public void buildRoom(String roomName, String description,
-			Set<String> escapes, boolean isLocked) throws Exception {
+		Set<String> escapes, boolean isLocked) throws Exception {
 		Room roomActual = new Room(roomName, description, isLocked);
 
 		for (String s : escapes) {
@@ -33,6 +35,7 @@ public class TextGameBuilder implements GameBuilder {
 		game.getModel().addRoom(roomActual);
 	}
 
+	@Override
 	public void buildRoomFinish(String roomName, String description,
 			Set<String> escapes, boolean isLocked) throws Exception {
 		RoomFinish roomActual = new RoomFinish(roomName, description, isLocked);
@@ -49,8 +52,9 @@ public class TextGameBuilder implements GameBuilder {
 		game.getModel().setPlayable(true);
 	}
 
-	public void buildFinalCondition(String roomName, String thingName) throws Exception {
-		game.getModel().setFinalCondition(roomName, thingName);
+	@Override
+	public void buildFinalCondition(String name, String thingName) throws Exception {
+		game.getModel().setFinalCondition(name, thingName);
 	}
 
 	@Override

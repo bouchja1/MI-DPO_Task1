@@ -1,5 +1,12 @@
 package cz.cvut.fit.adventura.dpo.engine.objects;
 
+/**
+ * @author bouc2162
+ * 
+ * Reprezentuje objekt vìc, který se mùže nacházet ve høe/místnostech, lze jej vkládat do svého inventáøe,
+ * pokládat, v urèitých pøípadech používat.
+ *
+ */
 public abstract class Thing {	
 	private String name;
 	private String description;

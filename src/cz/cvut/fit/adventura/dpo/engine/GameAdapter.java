@@ -1,32 +1,41 @@
 package cz.cvut.fit.adventura.dpo.engine;
 
-import cz.cvut.fit.adventura.dpo.GameEngineer;
+import java.io.File;
 
+import cz.cvut.fit.adventura.dpo.engine.mvc.Game;
 
-
+/**
+ * @author bouc2162
+ * 
+ * Spousteni konstrukce hry a spousteni herni smycky
+ *
+ */
 public class GameAdapter {
 
-	private static GameAdapter instance;
 	private Game game;	
 
-	private GameAdapter() {		
-	}
 	
-	public static GameAdapter getInstance() {
-		if (instance == null) {
-			instance = new GameAdapter();
-		}
-		return instance;
-	}	
-
-	public void buildGame(GameEngineer gameEngineer, TextGameBuilder textGame) throws Exception {
+	/**
+	 * @param gameEngineer 
+	 * @param textGame
+	 * @throws Exception
+	 * 
+	 * Spousteni konstrukce hry
+	 */
+	public void buildGame(IGameEngineer gameEngineer, TextGameBuilder textGame) throws Exception {
 		gameEngineer.constructGame();
 		game = gameEngineer.getGame();
 	}
 	
-	public void playGame() throws Exception {
+	
+	/**
+	 * @throws Exception povinnost finalni mistnosti
+	 * 
+	 * Spousteni herni smycky
+	 */
+	public void playGame(File file) throws Exception {
 		if (game.getModel().isPlayable()) {
-			this.game.play();
+			this.game.play(file);
 		}
 		else {
 			throw new Exception("You must set FINAL ROOM for playing game!");

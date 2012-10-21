@@ -1,43 +1,41 @@
 package cz.cvut.fit.adventura.dpo.engine.commands;
 
-import cz.cvut.fit.adventura.dpo.engine.Game;
-import cz.cvut.fit.adventura.dpo.engine.NarratorView;
+import cz.cvut.fit.adventura.dpo.engine.mvc.Model;
+import cz.cvut.fit.adventura.dpo.engine.mvc.View;
 import cz.cvut.fit.adventura.dpo.engine.objects.Player;
 import cz.cvut.fit.adventura.dpo.engine.objects.Room;
 
 public class CommandUnlock implements Command {
 	
-	private Game game;
+	private Model model;
+	private View view;
 	private Room roomToUnlock;
 	
-	public CommandUnlock(Game game, Room roomToUnlock) {
-		this.game = game;
+	public CommandUnlock(Model model, View view, Room roomToUnlock) {
+		this.model = model;
+		this.view = view;
 		this.roomToUnlock = roomToUnlock;
 	}	
 
 	@Override
-	public String execute() throws Exception {
-		String executeText = "";
-		
-		Room actualRoom = game.getModel().getPlayer().getWhereAmI();
-		Player player = game.getModel().getPlayer();
+	public void execute() {		
+		Room actualRoom = model.getPlayer().getWhereAmI();
+		Player player = model.getPlayer();
 
 			if (actualRoom.getEscapes().contains(roomToUnlock)) {
 				if (roomToUnlock.isLocked()) {
 					if (player.hasUnlockThing(roomToUnlock)) {
-						roomToUnlock.setLocked(false);
-						executeText = NarratorView.writeUnlockWhat(roomToUnlock);
+						roomToUnlock.setLocked(false);						
+						view.writeUnlockWhat(roomToUnlock);
 					} else {
-						executeText = NarratorView.UNLOCK_NEED_KEY;
+						view.writeUnlockNeedKey();
 					}
-				} else {
-					executeText = NarratorView.UNLOCK_ALREADY_UNLOCKED;
+				} else {					
+					view.writeUnlockAlreadyUnlocked();
 				}
 			} else {
-				executeText = NarratorView.writeUnlockNoWay(roomToUnlock);
+				view.writeUnlockNoWay(roomToUnlock);
 			}
-		
-		return executeText;
 	}
 
 }

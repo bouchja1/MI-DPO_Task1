@@ -1,24 +1,22 @@
 package cz.cvut.fit.adventura.dpo.engine.commands;
 
-import cz.cvut.fit.adventura.dpo.engine.Game;
-import cz.cvut.fit.adventura.dpo.engine.NarratorView;
+import cz.cvut.fit.adventura.dpo.engine.mvc.Model;
+import cz.cvut.fit.adventura.dpo.engine.mvc.View;
 
 public class CommandExit implements Command {
 
-	private Game game;
+	private Model model;
+	private View view;
 
-	public CommandExit(Game game) {
-		this.game = game;
+	public CommandExit(Model model, View view) {
+		this.model = model;
+		this.view = view;
 	}
 
 	@Override
-	public String execute() {
-		String executeText = "";
-
-		game.getModel().setEndGame(true);
-		executeText = NarratorView.EXIT_OK;
-
-		return executeText;
+	public void execute() {
+		model.setEndGame(true);
+		view.writeExitOk();
 	}
 
 }

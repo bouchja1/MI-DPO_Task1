@@ -1,37 +1,34 @@
 package cz.cvut.fit.adventura.dpo.engine.commands;
-
-import cz.cvut.fit.adventura.dpo.engine.Game;
-import cz.cvut.fit.adventura.dpo.engine.NarratorView;
+import cz.cvut.fit.adventura.dpo.engine.mvc.Model;
+import cz.cvut.fit.adventura.dpo.engine.mvc.View;
 import cz.cvut.fit.adventura.dpo.engine.objects.Room;
 
 public class CommandGo implements Command {
 
-	private Game game;
+	private Model model;
+	private View view;
 	private Room roomToGo;
 
-	public CommandGo(Game game, Room roomToGo) {
-		this.game = game;
+	public CommandGo(Model model, View view, Room roomToGo) {
+		this.model = model;
+		this.view = view;
 		this.roomToGo = roomToGo;
 	}
 
 	@Override
-	public String execute() throws Exception {
-		String executeText = "";
-
-		Room actualRoom = game.getModel().getPlayer().getWhereAmI();
+	public void execute() {
+		Room actualRoom = model.getPlayer().getWhereAmI();
 
 			if (actualRoom.getEscapes().contains(roomToGo)) {
 				if (roomToGo.isLocked()) {
-					executeText = NarratorView.GO_LOCKED;
+					view.writeGoLocked();
 				} else {
-					game.getModel().getPlayer().setWhereAmI(roomToGo);
-					executeText = NarratorView.GO_ENTERED;
+					model.getPlayer().setWhereAmI(roomToGo);
+					view.writeGoEntered();
 				}
 			} else {
-				executeText = NarratorView.GO_NO;
+				view.writeGoNo();
 			}
-
-		return executeText;
 	}
 
 }

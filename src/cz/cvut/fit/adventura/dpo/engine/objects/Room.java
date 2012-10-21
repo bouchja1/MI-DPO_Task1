@@ -5,6 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author bouc2162
+ * 
+ * Reprezentuje objekt místnost, který se mùže nacházet ve høe, lze jím procházet do dalších místností,
+ * odemykat jej...
+ *
+ */
 public class Room {
 
 	private String name;
@@ -25,6 +32,9 @@ public class Room {
 		things.add(thing);
 	}
 	
+	/**
+	 * @return seznam vìcí v místnosti
+	 */
 	public String thingList() {
 		String t = "";
 		for (Thing thing : things) {
@@ -33,6 +43,10 @@ public class Room {
 		return t;
 	}
 	
+	/**
+	 * @param thing
+	 * @return kontrola, zda místnost obsahuje takovou vìc
+	 */
 	public boolean containsThing(Thing thing) {
 		if (things.contains(thing)) {
 			return true;
@@ -40,6 +54,9 @@ public class Room {
 		return false;
 	}
 	
+    /**
+     * @return vrací možné východy z místnosti
+     */
     public String escapeList() {
     	String t = "";
         for (Room neighbors : escapes) {
@@ -52,6 +69,11 @@ public class Room {
         return t;
     }	
 
+	/**
+	 * @param thing
+	 * 
+	 * Odstraòuje vìc z místnosti, napø. pøi vložení do inventáøe
+	 */
 	public void removeThing(Thing thing) {
 		things.remove(thing);
 	}    

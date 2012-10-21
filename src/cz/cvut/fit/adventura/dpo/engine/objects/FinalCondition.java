@@ -1,5 +1,11 @@
 package cz.cvut.fit.adventura.dpo.engine.objects;
 
+/**
+ * @author bouc2162
+ * 
+ * Finální a nemìnná podmínka, jejíž splnìní je nutné pro ukonèení hry
+ *
+ */
 public final class FinalCondition {
 	private Room room;
 	private Thing thing;

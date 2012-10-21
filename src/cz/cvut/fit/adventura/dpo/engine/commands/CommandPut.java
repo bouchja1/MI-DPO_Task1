@@ -1,37 +1,35 @@
 package cz.cvut.fit.adventura.dpo.engine.commands;
 
-import cz.cvut.fit.adventura.dpo.engine.Game;
-import cz.cvut.fit.adventura.dpo.engine.NarratorView;
+import cz.cvut.fit.adventura.dpo.engine.mvc.Model;
+import cz.cvut.fit.adventura.dpo.engine.mvc.View;
 import cz.cvut.fit.adventura.dpo.engine.objects.Player;
 import cz.cvut.fit.adventura.dpo.engine.objects.Room;
 import cz.cvut.fit.adventura.dpo.engine.objects.Thing;
 
 public class CommandPut implements Command {
 
-	private Game game;
+	private Model model;
+	private View view;
 	private Thing thingToPut;
 	
-	public CommandPut(Game game, Thing thingToPut) {
-		this.game = game;
+	public CommandPut(Model model, View view, Thing thingToPut) {
+		this.model = model;
+		this.view = view;
 		this.thingToPut = thingToPut;
 	}
 
 	@Override
-	public String execute() throws Exception {
-		String executeText = "";
-		
-		Room actualRoom = game.getModel().getPlayer().getWhereAmI();
-		Player player = game.getModel().getPlayer();
+	public void execute() {
+		Room actualRoom = model.getPlayer().getWhereAmI();
+		Player player = model.getPlayer();
 
 			if (player.hasThing(thingToPut)) {
-				game.getModel().getPlayer().removeThing(thingToPut);
+				model.getPlayer().removeThing(thingToPut);
 				actualRoom.addThing(thingToPut);
-				game.getModel().checkConditions(actualRoom, thingToPut);
-				executeText = NarratorView.writePutWhat(thingToPut);
+				model.checkConditions(actualRoom, thingToPut);
+				view.writePutWhat(thingToPut);
 			} else
-				executeText = NarratorView.writeCantPutThis(thingToPut);
-
-		return executeText;
+				view.writeCantPutThis(thingToPut);
 	}
 
 }

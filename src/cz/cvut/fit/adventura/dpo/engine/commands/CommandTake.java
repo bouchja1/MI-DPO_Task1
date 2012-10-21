@@ -1,41 +1,39 @@
 package cz.cvut.fit.adventura.dpo.engine.commands;
 
-import cz.cvut.fit.adventura.dpo.engine.Game;
-import cz.cvut.fit.adventura.dpo.engine.NarratorView;
+import cz.cvut.fit.adventura.dpo.engine.mvc.Model;
+import cz.cvut.fit.adventura.dpo.engine.mvc.View;
 import cz.cvut.fit.adventura.dpo.engine.objects.MovableThing;
 import cz.cvut.fit.adventura.dpo.engine.objects.Room;
 import cz.cvut.fit.adventura.dpo.engine.objects.Thing;
 
 public class CommandTake implements Command {
 
-	private Game game;
+	private Model model;
+	private View view;
 	private Thing thingToTake;
 	
-	public CommandTake(Game game, Thing thingToTake) {
-		this.game = game;
+	public CommandTake(Model model, View view, Thing thingToTake) {
+		this.model = model;
+		this.view = view;
 		this.thingToTake = thingToTake;
 	}
 
 	@Override
-	public String execute() throws Exception {
-		String executeText = "";
-		
-		Room actualRoom = game.getModel().getPlayer().getWhereAmI();	
+	public void execute() {
+		Room actualRoom = model.getPlayer().getWhereAmI();	
 
 			if (actualRoom.containsThing(thingToTake)) {
 				if (thingToTake instanceof MovableThing) {
-					game.getModel().getPlayer().addToInventory(thingToTake);
+					model.getPlayer().addToInventory(thingToTake);
 					actualRoom.removeThing(thingToTake);
-					executeText = NarratorView.writeTakeWhat(thingToTake);
+					view.writeTakeWhat(thingToTake);
 				} else {
-					executeText = NarratorView.TAKE_CANT;
+					view.writeTakeCant();
 				}
 
 			} else {
-				executeText = NarratorView.TAKE_MISSING;
+				view.writeTakeMissing();
 			}
-
-		return executeText;
 	}		
 
 }
