@@ -1,0 +1,1 @@
+School project (course: Design Patterns and OOP). Implementation of simple game engine for creating text adventure games.
