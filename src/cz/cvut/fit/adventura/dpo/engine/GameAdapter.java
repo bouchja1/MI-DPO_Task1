@@ -33,9 +33,9 @@ public class GameAdapter {
 	 * 
 	 * Spousteni herni smycky
 	 */
-	public void playGame(File file) throws Exception {
+	public void playGame() throws Exception {
 		if (game.getModel().isPlayable()) {
-			this.game.play(file);
+			this.game.play();
 		}
 		else {
 			throw new Exception("You must set FINAL ROOM for playing game!");
